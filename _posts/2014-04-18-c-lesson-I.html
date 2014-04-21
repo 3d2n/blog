@@ -9,9 +9,9 @@ title: C程序设计语言（第2版·新版）：Lesson I
 <li>
 	为什么main函数可以不定义参数和返回值？
 <pre>
-	标准的写法：int main(int argc, char argv[])
-	最缩略的写法：main()
-	其次：int main()
+标准的写法：int main(int argc, char argv[])
+最缩略的写法：main()
+其次：int main()
 </pre>
 </li>
 <li>
@@ -43,4 +43,120 @@ ld: 1 duplicate symbol for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 </pre>
 </li>
+<li>
+	犯下的第一个错误
+<pre>
+预编译、编译、汇编及链接：
+stages：
+1). precomile -E
+2). compile: parse & check -S
+3). assemble -C
+4). link
+</pre>
+</li>
+<li>
+	EOF是什么？
+<pre>
+在OSX及ubuntu上均为值-1，定义在 stdio.h 中，
+</pre>
+</li>
+<li>
+	char的表述范围
+<pre>
+limits.h 
+signed char -128 ~ 127
+unsigned char 0 ~ 255
+</pre>
+</li>
+<li>
+	内存对齐及disassemble
+<pre>
+test.c
+#include
+typedef struct _demo {
+        int x;
+        char y;
+} demo;
+int main() {
+        demo* ds = (demo*)malloc(10 * sizeof(demo));
+ds[1].x = 1;
+ds[1].y = 'C';
+ds[2].x = 2;
+ds[2].y = 'D';
+free(ds);
+}
+
+gcc -g -O0 -o test test.c
+gdb ./test
+b main
+r
+disassemble /m
+
+Dump of assembler code for function main:
+7 int main() {
+   0x0804844d <+0>: push   %ebp
+   0x0804844e <+1>: mov    %esp,%ebp
+   0x08048450 <+3>: and    $0xfffffff0,%esp
+   0x08048453 <+6>: sub    $0x20,%esp
+
+8 demo* ds = (demo*)malloc(10 * sizeof(demo));
+=> 0x08048456 <+9>: movl   $0x50,(%esp)
+   0x0804845d <+16>: call   0x8048320
+   0x08048462 <+21>: mov    %eax,0x1c(%esp)
+
+9 ds[1].x = 1;
+   0x08048466 <+25>: mov    0x1c(%esp),%eax
+   0x0804846a <+29>: add    $0x8,%eax
+   0x0804846d <+32>: movl   $0x1,(%eax)
+
+10 ds[1].y = 'C';
+   0x08048473 <+38>: mov    0x1c(%esp),%eax
+   0x08048477 <+42>: add    $0x8,%eax
+   0x0804847a <+45>: movb   $0x43,0x4(%eax)
+
+11 ds[2].x = 2;
+   0x0804847e <+49>: mov    0x1c(%esp),%eax
+   0x08048482 <+53>: add    $0x10,%eax
+   0x08048485 <+56>: movl   $0x2,(%eax)
+
+12 ds[2].y = 'D';
+   0x0804848b <+62>: mov    0x1c(%esp),%eax
+   0x0804848f <+66>: add    $0x10,%eax
+   0x08048492 <+69>: movb   $0x44,0x4(%eax)
+
+13 free(ds);
+   0x08048496 <+73>: mov    0x1c(%esp),%eax
+   0x0804849a <+77>: mov    %eax,(%esp)
+   0x0804849d <+80>: call   0x8048310
+
+r
+n...
+(gdb) p ds
+$1 = (demo *) 0x804b008
+(gdb) x /80b  0x804b008
+0x804b008: 0 0 0 0 0 0 0 0
+0x804b010: 1 0 0 0 67 0 0 0
+0x804b018: 2 0 0 0 68 0 0 0
+0x804b020: 0 0 0 0 0 0 0 0
+0x804b028: 0 0 0 0 0 0 0 0
+0x804b030: 0 0 0 0 0 0 0 0
+0x804b038: 0 0 0 0 0 0 0 0
+0x804b040: 0 0 0 0 0 0 0 0
+0x804b048: 0 0 0 0 0 0 0 0
+0x804b050: 0 0 0 0 0 0 0 0
+
+
+
+几个问题：
+1). 内存对齐的问题：demo中定义了一个int和一个char，分别占用4个和1个字节，但sizeof = 8，
+=> 0x08048456 <+9>: movl   $0x50,(%esp)
+   0x0804845d <+16>: call   0x8048320
+分配了80个字节
+2). 初始化问题：按理malloc不负责初始化，但从这里观察到都被初始化成0了？？
+3). bigEndian和littleEndian：待展开
+4). 数组在内存中是连续存储的，数组变量只持有第一个元素的地址，但对数组下标的访问均在编译（汇编）时刻转化成sizeof的偏移量，例如
+   0x0804846a <+29>: add    $0x8,%eax
+</pre>
+</li>
+
 </ol>
