@@ -3,18 +3,44 @@ layout: default
 title: C程序设计语言（第2版·新版）：Lesson I
 ---
 <h2>{{ page.title }}</h2>
-<p>我的第一篇文章</p>
 <p>{{ page.date | date_to_string }}</p>
 
 <ol>
 <li>
-	为什么main函数可以不定义参数和返回值？<br />
+	为什么main函数可以不定义参数和返回值？
+<pre>
 	标准的写法：int main(int argc, char argv[])
 	最缩略的写法：main()
 	其次：int main()
+</pre>
+</li>
+<li>
+	可以把两个带main函数的源文件link在一起吗？
+<pre>
+a.c
+#include
+
+int main() {
+        printf("a\n");
+        return 0;
+}
+
+b.c
+#include
+
+int main() {
+        printf("b\n");
+        return 1;
+}
+
+gcc -c a.c b.c
+gcc -o ab a.o b.o
+
+duplicate symbol _main in:
+    a.o
+    b.o
+ld: 1 duplicate symbol for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+</pre>
 </li>
 </ol>
-1. 为什么main函数可以不定义参数和返回值？
-标准的写法：int main(int argc, char argv[])
-最缩略的写法：main()
-其次：int main()
