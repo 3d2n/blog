@@ -5,7 +5,72 @@ title: git权威指南：Lesson I
 <h2>{{ page.title }}</h2>
 <p>{{ page.date | date_to_string }}</p>
 
+<h1>常用的git命令</h1>
 <ol>
+<li>所有的git指令都被合并在git命令中，统一的方法是 git command args</li>
+<li>git init</li>
+<li>
+	三个config
+	<ul>
+	<li>在版本库下执行：git config -e，配置当前版本库的配置</li>
+	<li>运行git config --global -e，配置当前用户的所有版本库配置</li>
+	<li>运行git config --system -e，配置所有用户的所有版本库的配置</li>
+	</ul>
+</li>
+<li>
+	指令别名
+	<pre>
+使用 git config --global alias.ci commit
+或
+[alias]
+	st = status
+	ci = commit
+	co = checkout
+	</pre>
+</li>
+<li>
+	语法highlight
+	<pre>
+config
+[color]
+	ui = true
+	</pre>
+</li>
+<li>
+	三种diff
+	<ul>
+	<li>比较工作区与暂存区：git diff</li>
+	<li>比较工作区与版本库：git diff HEAD</li>
+	<li>比较暂存区与版本库：git diff --cached</li>
+	</ul>
+</li>
+<li>
+	reset和checkout的区别
+<pre>
+checkout主要操作的是工作区，用于将工作区中的内容替换为版本库或暂存区中的指定版本；
+而reset则主要操作暂存区或版本库，也可涉及到工作区；
+</pre>
+</li>
+<li>
+	危险的checkout
+	<ul>
+	<li>git checkout . 或 git checkout -- <file>：将工作区的内容用暂存区替换（会删除尚未提交到暂存区的更新，不会删除尚未加入到暂存区的文件，但会恢复已加入到暂存区但被从工作区域删除的文件） </li>
+	<li>git checkout HEAD . 或 git checkout HEAD <file>：类似上条，只是使用版本库</li>
+	<li>git clean -fd 删除工作区中所有未加入到暂存区的文件和目录</li>
+	</ul>
+</li>
+<li>
+	四种reset
+	<ul>
+	<li>git reset commit -- file: 回滚从工作区到暂存区的提交，相当于add的反向</li>
+	</ul>
+</li>
+<li>
+	git status -s -b 查看当前分支
+</li>
+<li>
+rainbow table & salted hash
+</li>
 <li>
 	dstruss | strace
 <pre>
