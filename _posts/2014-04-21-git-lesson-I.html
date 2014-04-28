@@ -45,6 +45,13 @@ config
 	</ul>
 </li>
 <li>
+	git reflog 和 git log 的区别
+<pre>
+git log最主要用于查看版本库的提交日志，一般用于从HEAD向前追溯，如果中间出现了reset，则不管；
+而 git reflog 可以看到整个版本库的变化，commit 或 reset 均可以查看；
+</pre>
+</li>
+<li>
 	reset和checkout的区别
 <pre>
 checkout主要操作的是工作区，用于将工作区中的内容替换为版本库或暂存区中的指定版本；
@@ -56,17 +63,42 @@ checkout主要操作的是工作区，用于将工作区中的内容替换为版
 	<ul>
 	<li>git checkout . 或 git checkout -- <file>：将工作区的内容用暂存区替换（会删除尚未提交到暂存区的更新，不会删除尚未加入到暂存区的文件，但会恢复已加入到暂存区但被从工作区域删除的文件） </li>
 	<li>git checkout HEAD . 或 git checkout HEAD <file>：类似上条，只是使用版本库</li>
-	<li>git clean -fd 删除工作区中所有未加入到暂存区的文件和目录</li>
+	<li>git clean -fd 删除工作区中所有未加入到暂存区的文件和目录；git clean -nd: dry-run</li>
 	</ul>
 </li>
 <li>
 	四种reset
 	<ul>
-	<li>git reset commit -- file: 回滚从工作区到暂存区的提交，相当于add的反向</li>
+	<li>git reset commit -- file：回滚从工作区到暂存区的提交，用版本库中的指定版本替换暂存区，但不会修改工作区，从这个角度来看，可用于add的反向</li>
+	<li>git reset [--mixed] commit：将暂存区回滚到指定的版本库版本，但不会修改工作区</li>
+	<li>git reset --soft commit：只调整版本库，不影响暂存区和工作区，主要用于回滚版本库到指定的版本</li>
+	<li>git reset --hard commit：同时调整版本库、暂存区和工作区</li>
 	</ul>
 </li>
 <li>
 	git status -s -b 查看当前分支
+</li>
+<li>
+<pre>
+	git add | git cat-file | git show
+	git stash
+	git stash list
+	git stash pop
+	git stash clear
+	git stash apply
+	stash@{1}^2 的含义
+
+	.gitignore
+
+	git log -p 打印具体的改动
+	git log --stat 打印修改了哪些文件
+</pre>
+</li>
+<li>
+	分支切换：git checkout branch_name ，保留本地更新
+	git checkout -b branch_name，创建分支并切换
+	git cherry
+	git cherry-pick
 </li>
 <li>
 rainbow table & salted hash
