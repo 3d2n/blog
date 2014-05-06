@@ -1,0 +1,40 @@
+---
+layout: default
+title: C程序设计语言（第2版·新版）：Lesson III
+---
+<h2>{{ page.title }}</h2>
+<p>{{ page.date | date_to_string }}</p>
+
+<ol>
+<li>
+	外部变量的定义与声明
+<pre>
+定义：definition，说明变量的属性（主要是变量的类型），还将引起存储的分配，定义同时作为其所在位置之后剩余部分的声明；
+声明：declaration，近用于说明变量的属性；
+一个外部变量只能被定义一次，但可以被多次声明；对于数组变量而言，定义必须要指定其长度，而声明则不一定；
+对变量的初始化只能出现在定义中；
+</pre>
+</li>
+<li>
+	字符数组的初始化
+<pre>
+char sz[] = "hello";
+等同于
+char sz[] = {'h', 'e', 'l', 'l', 'o', '\0'};	
+</pre>
+</li>
+<li>
+	预编译中的#
+<pre>
+#define dprint(expr) printf(#expr  " = %g\n", expr)
+
+dprint(x / y);
+经预编译后为
+printf("x / y" " = %g\n", x / y);
+相当于
+printf("x / y = %g\n", x / y);
+
+说明：参数名以#开头则结果将被扩展为由实际参数替换该参数的带引号的字符串。实际参数中的"和\将被自动转义以适应字符串语法。
+</pre>
+</li>
+</ol>
