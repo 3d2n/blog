@@ -1,0 +1,54 @@
+---
+layout: default
+title: C程序设计语言（第2版·新版）：Lesson IV
+---
+<h2>{{ page.title }}</h2>
+<p>{{ page.date | date_to_string }}</p>
+
+<ol>
+<li>
+	struct
+<pre>
+可以在函数中直接返回一个struct，而不需要指针，类似返回一个int；
+函数参数的传旨调用会导致一个struct的复制，此时，更应该使用指针；
+</pre>
+</li>
+<li>
+	使用typedef定义一个函数指针的别名
+<pre>
+typedef int (*PFI)(char *, char *);
+定义了一个名为PFI的函数指针，该函数有两个char*的参数，返回int；
+</pre>
+</li>
+<li>
+	typedef是编译器处理的，而#define是与处理器来处理；
+</li>
+<li>
+	实际上，union就是一个struct，它的所有成员相对于基地址的便宜量都是0，并且，此结构空间要大到足够容纳最宽的成员，同时，其对齐方式要适合于所有成员。
+<pre>
+#include <stdio.h>
+
+union test {
+        int iVal[4];
+        char *sVal;
+        float fVal;
+};
+
+int main() {
+        union test t;
+        printf("%lu\n", sizeof(t));
+}
+</pre>
+结果是16，由 int iVal[4]决定
+</li>
+<li>
+	sizeof在编译时完成计算
+</li>
+<li>
+	计算数组的长度，可以使用一个宏
+<pre>
+#define NKEYS (sizeof(数组名) / sizeof(元素类型))
+如求数组 int a[] 的长度可以用 #define NKEYS (sizeof(a) / sizeof(int)) 或 #define NKEYS ((sizeof(a) / sizeof(a[0])))	
+</pre>
+</li>
+</ol>
