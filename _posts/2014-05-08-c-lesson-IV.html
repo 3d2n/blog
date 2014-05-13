@@ -1,0 +1,53 @@
+---
+layout: default
+title: C程序设计语言（第2版·新版）：Lesson IV
+---
+<h2>{{ page.title }}</h2>
+<p>{{ page.date | date_to_string }}</p>
+
+<ol>
+<li>
+	函数指针
+<pre>
+声明一个函数：
+int strcmp(char *s1, char *s2);
+
+int (*comp)(void *, void *)
+其中 comp 代表一个函数指针的占位符，是一个指向有两个 void* 参数，且返回值是int类型的函数的指针，
+而 strcmp 该名称则为真正的函数指针；
+
+对函数指针的使用：
+if ((*com)(arg1, arg2) < 0)
+
+函数指针的类型转换：
+(int (*)(void *, void *))strcmp
+</pre>
+</li>
+<li>
+	char **argv;
+<pre>
+argv是一个指针，该指针指向一个指针A，而指针A则是一个类型是char*的指针（即该指针指向一个char，通常用于指向一个字符串），argv通常用于声明一个字符串数组；
+</pre>
+</li>
+<li>
+	int (*daytab)[13];
+<pre>
+*daytab是一个有13个元素的数组，数组里的每一个元素是一个int，而daytab则是指向这个数组的指针；
+</pre>
+</li>
+<li>
+	int *daytab[13];
+<pre>
+daytab是一个数组，???
+</pre>
+</li>
+<li>
+	char (*(*x())[])()
+</li>
+<li>
+	char (*(*x[3])())[5]
+</li>
+<li>
+	在声明中，[]的优先级高于*
+</li>
+</ol>
