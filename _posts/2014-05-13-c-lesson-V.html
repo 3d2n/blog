@@ -11,6 +11,29 @@ title: C程序设计语言（第2版·新版）：Lesson IV
 <pre>
 可以在函数中直接返回一个struct，而不需要指针，类似返回一个int；
 函数参数的传旨调用会导致一个struct的复制，此时，更应该使用指针；
+如果在函数内部直接定义一个struct（非指针），也可直接返回，但实际上返回的是其复制，可以通过对这样代码debug来查看：
+
+#include <stdio.h>
+
+struct point {
+        int x;
+        int y;
+};
+
+struct point makePoint(int x, int y) {
+        struct point tmp;
+        tmp.x = x;
+        tmp.y = y;
+        return tmp;
+}
+
+int main() {
+        struct point pt = makePoint(10, 20);
+        printf("%d, %d\n", pt.x, pt.y);
+        return 0;
+}
+
+通过debug打印tmp和pt的地址即可看出；
 </pre>
 </li>
 <li>
