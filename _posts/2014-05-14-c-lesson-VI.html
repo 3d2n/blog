@@ -1,0 +1,30 @@
+---
+layout: default
+title: C程序设计语言（第2版·新版）：Lesson IV
+---
+<h2>{{ page.title }}</h2>
+<p>{{ page.date | date_to_string }}</p>
+
+<ol>
+<li>
+	变长参数表
+<pre>
+声明：void printf(char *fmt, ...)
+三个相关的宏和一种类型，定义在stdarg.h中，va_start|va_end|va_arg，类型：va_list，一个demo
+
+#include <stdarg.h>
+
+void myprintf(char *fmt, ...) {
+	va_list ap;
+	
+	va_start(ap, fmt);
+
+	int iVal = va_arg(ap, int);
+	char *sVal = va_arg(ap, char *);
+	double fVal = va_arg(ap, double)
+
+	va_end(ap);
+}
+</pre>
+</li>
+</ol>
